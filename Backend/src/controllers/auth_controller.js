@@ -16,17 +16,19 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 // --------------------------------------- GOOGLE LOGIN -----------------------------------------------
 module.exports.googleLogin = async (req, res) => {
   try {
-    const { token } = req.body; // This is the access_token from frontend
+    const { idToken } = req.body; // This is the access_token from frontend
     
     // 1. Fetch User Info from Google (using the access_token)
     // We use axios directly since google-auth-library verifyIdToken expects an ID Token (JWT)
     // but the frontend hook returns an access_token (Opaque).
-    const axios = require('axios');
-    const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
-      headers: { Authorization: `Bearer ${token}` }
+
+    const ticket = await client.verifyIdToken({
+      idToken: idToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
     });
 
-    const { sub: googleId, email, name, picture } = userInfoResponse.data;
+    const payload = ticket.getPayload();
+    const { email, name,  sub: googleId, picture } = payload;
 
     // Optional: Verify the token was issued to OUR app (Security Best Practice)
     // const tokenInfo = await client.getTokenInfo(token);

@@ -9,18 +9,32 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:8080",
+    origin: "http://localhost:8080", // Frontend URL
     credentials: true,
   })
 );
 app.use(cookieParser());
 
 // ----------------------------------------- Database Setup ----------------------------------
+// const db = require("./database/models");
+// db.sequelize
+//   .authenticate()
+//   .then(() => console.log("✅ Database connected"))
+//   .catch((err) => console.error("❌ Database connection failed:", err));
 const db = require("./database/models");
+
 db.sequelize
   .authenticate()
-  .then(() => console.log("✅ Database connected"))
-  .catch((err) => console.error("❌ Database connection failed:", err));
+  .then(async () => {
+    console.log("✅ Database connected");
+
+    await db.sequelize.sync({ alter: true }); // 👈 IMPORTANT
+    console.log("✅ Tables synced successfully");
+  })
+  .catch((err) => {
+    console.error("❌ Database connection failed:", err);
+  });
+
 
 // ----------------------------------------- Routes ------------------------------------------
 const authRoutes = require("./src/routes/auth_route");
