@@ -7,12 +7,22 @@ const app = express();
 
 // ----------------------------------------- Middlewares -------------------------------------
 app.use(express.json());
-app.use(
-  cors({
-    origin: "http://localhost:8080", // Frontend URL
-    credentials: true,
-  })
-);
+const allowedOrigins = [
+  "https://www.homodeal.in",
+  "https://homodeal.in"
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
+
 app.use(cookieParser());
 
 // ----------------------------------------- Database Setup ----------------------------------
