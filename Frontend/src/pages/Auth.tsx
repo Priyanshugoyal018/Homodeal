@@ -245,7 +245,6 @@ const Auth = () => {
       });
 
       login(res.data.user);
-      console.log("Google login response:", res.data.user);
 
       toast({
         title: "Welcome Back!",
@@ -356,7 +355,6 @@ const Auth = () => {
       });
 
       login(res.data.user);
-      console.log("Google login response:", res.data.user);
 
       toast({
         title: "Welcome Back!",
