@@ -9,7 +9,8 @@ const app = express();
 app.use(express.json());
 const allowedOrigins = [
   "https://www.homodeal.in",
-  "https://homodeal.in"
+  "https://homodeal.in",
+  "http://localhost:8080",
 ];
 
 app.use(cors({

@@ -17,6 +17,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 module.exports.googleLogin = async (req, res) => {
   try {
     const { idToken } = req.body; // This is the access_token from frontend
+    console.log("Received Google ID Token:", idToken);
     
     // 1. Fetch User Info from Google (using the access_token)
     // We use axios directly since google-auth-library verifyIdToken expects an ID Token (JWT)
