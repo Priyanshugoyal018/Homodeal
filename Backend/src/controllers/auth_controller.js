@@ -258,12 +258,17 @@ module.exports.logout = async (req, res) => {
   try {
     const clearOptions = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+      secure: true,          // 🔥 MUST be true
+      sameSite: "None",      // 🔥 MUST be None
+      path: "/",             // 🔥 important
     };
+
     res.clearCookie("access_token", clearOptions);
     res.clearCookie("refresh_token", clearOptions);
-    res.status(200).json({ message: "Logged out successfully." });
+
+    res.status(200).json({
+      message: "Logged out successfully",
+    });
   } catch (err) {
     console.error("Logout error:", err);
     res.status(500).json({
