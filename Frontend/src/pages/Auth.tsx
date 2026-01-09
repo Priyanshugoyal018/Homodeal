@@ -233,33 +233,49 @@ const Auth = () => {
               <CardContent>
                 <div className="space-y-4">
                 <GoogleLogin
-                  onSuccess={async(credentialResponse) => {
-                    try {
-                      const res = await api.post("/api/auth/google", {
-                      idToken: credentialResponse.credential, 
-                    });
-                    login(res.data.user);
-                    toast({
-                      title: "Welcome Back!",
-                      description: "You have successfully logged in.",
-                    });
-                    navigate("/dashboard");
-                    } catch (error: any) {
-                      toast({
-                        title: "Authentication Failed",
-                        description: "Unable to sign in with Google. Please try again.",
-                        variant: "destructive",
-                      });
-                    }}
-                  }
-                  onError={() => {
-                  toast({
-                    title: "Authentication Cancelled",
-                    description: "Google sign-in was interrupted. Please try again.",
-                    variant: "destructive",
-                  });
-                }}
-              />
+  onSuccess={async (credentialResponse) => {
+    try {
+      // 🔒 Defensive check (VERY IMPORTANT)
+      if (!credentialResponse?.credential) {
+        throw new Error("No ID token received from Google");
+      }
+
+      const res = await api.post("/api/auth/google", {
+        idToken: credentialResponse.credential, // ✅ ID TOKEN
+      });
+
+      login(res.data.user);
+
+      toast({
+        title: "Welcome Back!",
+        description: "You have successfully logged in.",
+      });
+
+      navigate("/dashboard");
+    } catch (error: any) {
+      console.error("Google Auth Error:", error);
+
+      toast({
+        title: "Authentication Failed",
+        description:
+          error?.response?.data?.message ||
+          "Unable to sign in with Google. Please try again.",
+        variant: "destructive",
+      });
+    }
+  }}
+  onError={() => {
+    toast({
+      title: "Authentication Cancelled",
+      description: "Google sign-in was interrupted. Please try again.",
+      variant: "destructive",
+    });
+  }}
+  useOneTap={false}   // 🔥 IMPORTANT: avoid silent prod issues
+  theme="outline"
+  size="large"
+/>
+
 
 
                   <div className="relative">
@@ -327,33 +343,49 @@ const Auth = () => {
               <CardContent>
                 <div className="space-y-4">
                 <GoogleLogin
-                  onSuccess={async(credentialResponse) => {
-                    try {
-                      const res = await api.post("/api/auth/google", {
-                      idToken: credentialResponse.credential, 
-                    });
-                    login(res.data.user);
-                    toast({
-                      title: "Welcome Back!",
-                      description: "You have successfully logged in.",
-                    });
-                    navigate("/dashboard");
-                    } catch (error: any) {
-                      toast({
-                        title: "Authentication Failed",
-                        description: "Unable to sign in with Google. Please try again.",
-                        variant: "destructive",
-                      });
-                    }}
-                  }
-                  onError={() => {
-                  toast({
-                    title: "Authentication Cancelled",
-                    description: "Google sign-in was interrupted. Please try again.",
-                    variant: "destructive",
-                  });
-                }}
-              />
+  onSuccess={async (credentialResponse) => {
+    try {
+      // 🔒 Defensive check (VERY IMPORTANT)
+      if (!credentialResponse?.credential) {
+        throw new Error("No ID token received from Google");
+      }
+
+      const res = await api.post("/api/auth/google", {
+        idToken: credentialResponse.credential, // ✅ ID TOKEN
+      });
+
+      login(res.data.user);
+
+      toast({
+        title: "Welcome Back!",
+        description: "You have successfully logged in.",
+      });
+
+      navigate("/dashboard");
+    } catch (error: any) {
+      console.error("Google Auth Error:", error);
+
+      toast({
+        title: "Authentication Failed",
+        description:
+          error?.response?.data?.message ||
+          "Unable to sign in with Google. Please try again.",
+        variant: "destructive",
+      });
+    }
+  }}
+  onError={() => {
+    toast({
+      title: "Authentication Cancelled",
+      description: "Google sign-in was interrupted. Please try again.",
+      variant: "destructive",
+    });
+  }}
+  useOneTap={false}   // 🔥 IMPORTANT: avoid silent prod issues
+  theme="outline"
+  size="large"
+/>
+
 
                   <div className="relative">
                     <div className="absolute inset-0 flex items-center">
