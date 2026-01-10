@@ -44,6 +44,7 @@ exports.createProperty = async (req, res) => {
             price: propertyData.price,
             description: propertyData.description || propertyData.specialNotes || propertyData.additionalInfo || "",
             name: propertyData.propertyName || propertyData.name || "",
+            mobile: propertyData.mobile,
             userId: req.user.id,
         });
 
@@ -177,6 +178,7 @@ exports.getAllProperties = async (req, res) => {
     try {
         const properties = await Property.findAll({
             where: { status: 'approved' },
+            attributes: { exclude: ['mobile'] },
             order: [["createdAt", "DESC"]],
         });
 
@@ -268,6 +270,7 @@ exports.getPropertyById = async (req, res) => {
     try {
         const { id } = req.params;
         const property = await Property.findByPk(id, {
+            attributes: { exclude: ['mobile'] },
             include: [
                 { model: SaleProperty, as: "SaleProperty" },
                 { model: RentalProperty, as: "RentalProperty" },

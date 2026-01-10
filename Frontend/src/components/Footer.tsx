@@ -48,7 +48,7 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold text-gray-900 mb-4">Contact</h3>
             <ul className="space-y-2 text-gray-600">
-              <li>Homodeal01@gmail.com</li>
+              <li>Homodeal.01@gmail.com</li>
               <li>8923631839</li>
               <li>Tara Singh Avenue , Basti Bawa Khel , Jalandhar , 144021</li>
             </ul>

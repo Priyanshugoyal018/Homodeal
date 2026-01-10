@@ -34,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true
       },
+      mobile: {
+        type: DataTypes.STRING,
+        allowNull: true // Enforce in controller
+      },
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,

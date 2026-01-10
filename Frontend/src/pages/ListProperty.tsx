@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import RentalPropertyForm from '@/components/forms/RentalPropertyForm';
@@ -15,6 +16,7 @@ const ListProperty = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [propertyPurpose, setPropertyPurpose] = useState('');
+  const [mobile, setMobile] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [initialValues, setInitialValues] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,6 +35,7 @@ const ListProperty = () => {
           if (purpose === 'commercial') purpose = 'shop';
 
           setPropertyPurpose(purpose);
+          if (data.mobile) setMobile(data.mobile);
 
           // Flatten data for forms
           let flatData = {
@@ -78,6 +81,16 @@ const ListProperty = () => {
       return;
     }
 
+    if (!mobile || mobile.length < 10) {
+      toast({
+        title: "Invalid Mobile Number",
+        description: "Please enter a valid mobile number for verification.",
+        variant: "destructive"
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     if (!id && (!formData.images || formData.images.length === 0)) {
       // Only enforce image requirement on create, not update (internal images might be kept)
       toast({
@@ -110,6 +123,9 @@ const ListProperty = () => {
           dataToSend.append(key, value instanceof Blob ? value : String(value));
         }
       });
+
+      // Append Mobile Number (Separate from child form data)
+      dataToSend.append('mobile', mobile);
 
       const url = id
         ? `${import.meta.env.VITE_SERVER_URL}/api/property/${id}`
@@ -210,6 +226,33 @@ const ListProperty = () => {
                     <SelectItem value="shop">For Shop/Commercial</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Contact Details */}
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle>Contact Details</CardTitle>
+              <CardDescription>
+                Your valid mobile number for property verification.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div>
+                <Label htmlFor="mobile">Mobile Number *</Label>
+                <Input
+                  id="mobile"
+                  name="mobile"
+                  type="tel"
+                  placeholder="Enter your mobile number"
+                  value={mobile}
+                  onChange={(e) => setMobile(e.target.value)}
+                  required
+                />
+                <p className="text-xs text-red-500 mt-1">
+                  * This number will NOT be shown publicly. Only visible to Admins.
+                </p>
               </div>
             </CardContent>
           </Card>
