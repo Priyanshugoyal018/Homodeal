@@ -244,7 +244,7 @@ const PropertyDetail = () => {
                     <Phone className="w-4 h-4 mr-2" /> +91 8923631839
                   </div>
                   <div className="flex items-center">
-                    <Mail className="w-4 h-4 mr-2" /> Homodeal01@gmail.com
+                    <Mail className="w-4 h-4 mr-2" /> homodeal.01@gmail.com
                   </div>
                 </div>
               </CardContent>
