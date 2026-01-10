@@ -50,7 +50,7 @@ const Footer = () => {
             <ul className="space-y-2 text-gray-600">
               <li>Homodeal01@gmail.com</li>
               <li>8923631839</li>
-              <li>123 Property St, City, State</li>
+              <li>Tara Singh Avenue , Basti Bawa Khel , Jalandhar , 144021</li>
             </ul>
           </div>
         </div>

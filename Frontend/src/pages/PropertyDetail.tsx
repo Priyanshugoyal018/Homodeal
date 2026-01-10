@@ -241,10 +241,10 @@ const PropertyDetail = () => {
 
                 <div className="mt-6 text-sm text-gray-600">
                   <div className="flex items-center mb-2">
-                    <Phone className="w-4 h-4 mr-2" /> +91 98765 43210
+                    <Phone className="w-4 h-4 mr-2" /> +91 8923631839
                   </div>
                   <div className="flex items-center">
-                    <Mail className="w-4 h-4 mr-2" /> info@homodeal.com
+                    <Mail className="w-4 h-4 mr-2" /> homodeal.01@gmail.com
                   </div>
                 </div>
               </CardContent>
